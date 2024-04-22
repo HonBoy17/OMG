@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omg.mappers.member">
+
+	<!-- 아이디 중복 확인 -->
+	<select id="idCheck" parameterType="String" resultType="com.omg.domain.MemberVO">
+		select * from member_tbl
+		where mbId = #{mbId}
+	</select>
+	
+	<!-- 닉네임 중복 확인 -->
+	<select id="nickCheck" parameterType="String" resultType="com.omg.domain.MemberVO">
+		select * from member_tbl
+		where mbNickname = #{mbNickname}
+	</select>
+	
+	<!-- 회원 가입 1차 데이터 -->
+	<insert id="insert" parameterType="com.omg.domain.MemberVO">
+		insert into member_tbl (
+		    mbId,
+		    mbPassword,
+		    mbName,
+		    mbNickname,
+		    mbAge,
+		    mbGender,
+		    mbPhone,
+		    mbPostcode,
+		    mbAddress,
+		    mbDetailAddr,
+		    reg_date,
+		    up_date
+		) values (
+		    #{mbId},
+		    #{mbPassword},
+		    #{mbName},
+		    #{mbNickname},
+		    #{mbAge},
+		    #{mbGender},
+		    #{mbPhone},
+		    #{mbPostcode},
+		    #{mbAddress},
+		    #{mbDetailAddr},
+		    now(),
+		    now()
+		)
+	</insert>
+	
+	<!-- 회원 가입 2차 데이터 -->
+	<update id="insertDetail" parameterType="com.omg.domain.MemberVO">
+		update member_tbl set
+			mbRequestPrsnl = #{mbRequestPrsnl},
+			mbRequestAge = #{mbRequestAge},
+			mbRequestGender = #{mbRequestGender},
+			mbRequestTime = #{mbRequestTime}, 
+			mbCaution = #{mbCaution}
+		where mbId = #{mbId}
+	</update>
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="com.omg.domain.MemberVO">
+		select * from member_tbl
+		where mbId = #{mbId}
+	</select>
+	
+	<!-- 접속 횟수 증가 -->
+	<update id="loginCnt" parameterType="String">
+		update member_tbl
+		SET login_cnt = login_cnt + 1
+		WHERE mbId = #{mbId}
+	</update>
+	
+	<!-- 정보 조회 -->
+	<select id="view" parameterType="String" resultType="com.omg.domain.MemberVO">
+		select * from member_tbl
+		where mbId = #{mbId}
+	</select>
+	
+	<!-- 정보 수정 -->
+	<update id="modify">
+		update member_tbl set
+			mbPassword = #{mbPassword},
+		    mbName = #{mbName},
+		    mbNickname = #{mbNickname},
+		    mbAge = #{mbAge},
+		    mbGender = #{mbGender},
+		    mbAddress = #{mbAddress},
+		    mbPhone = #{mbPhone},
+		    up_date = now()
+		where mbId = #{mbId}
+	</update>
+	
+	<!-- 회원삭제 -->
+	<delete id="delete">
+		delete from member_tbl
+		where mbId = #{mbId} and mbPassword = #{mbPassword}
+	</delete>
+	
+	<!-- 회원목록 -->
+	<select id="list" resultType="com.omg.domain.MemberVO">
+		select * from member_tbl
+	</select>
+	
+	<!-- 회원 총 인원 -->
+	<select id="memberCnt" parameterType="String" resultType="int">
+		select count(*) from member_tbl
+	</select>
+	
+	<!-- 성별 분포 -->
+	<select id="genderCnt" parameterType="String" resultType="int">
+		select count(*) from member_tbl
+		where gender = #{gender}
+	</select>
+	
+	<!-- 나이대 분포  -->
+	<select id="ageCnt" parameterType="String" resultType="int">
+		select count(*) from member_tbl
+		where age = #{age}
+	</select>
+	
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.omg.mappers.cs">
+
+	<!-- 게시물 등록 -->
+	<insert id="insert" parameterType="com.omg.domain.CsVO">
+		insert into csTbl (
+			csTitle,
+			csContent,
+			csWriter,
+			reg_date
+		) values (
+			#{csTitle},
+			#{csContent},
+			#{csWriter},
+			now()
+		)
+	</insert>
+	
+	<select id="getList" resultType="com.omg.domain.CsVO">
+		select * from csTbl
+		order by csPostNum desc
+	</select>
+
+</mapper>

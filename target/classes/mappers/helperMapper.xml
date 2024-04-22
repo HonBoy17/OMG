@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.omg.mappers.helper">
+
+	<!-- 아이디 중복 확인 -->
+	<select id="idCheck" parameterType="String" resultType="com.omg.domain.HelperVO">
+		select * from helper_tbl
+		where hpId = #{hpId}
+	</select>
+	
+	<!-- 닉네임 중복 확인 -->
+	<select id="nickCheck" parameterType="String" resultType="com.omg.domain.HelperVO">
+		select * from helper_tbl
+		where hpNickname = #{hpNickname}
+	</select>
+	
+	<!-- 회원 가입 -->
+	<insert id="insert" parameterType="com.omg.domain.HelperVO">
+		insert into helper_tbl (
+		   hpId
+		  ,hpPassword
+		  ,hpName
+		  ,hpNickname
+		  ,hpAge
+  		  ,hpGender
+  		  ,hpPhone
+		  ,reg_date
+		  ,up_date
+		) values (
+		   #{hpId}
+		  ,#{hpPassword}
+		  ,#{hpName}
+		  ,#{hpNickname}
+  		  ,#{hpAge}
+  		  ,#{hpGender}
+  		  ,#{hpPhone}
+		  ,now()
+		  ,now()
+		)
+	</insert>
+	
+	<update id="insertDetail">
+		update helper_tbl set
+			hpType = #{hpType},
+			hpArea = #{hpArea},
+			hpPrsnl = #{hpPrsnl},
+			hpCareer = #{hpCareer},
+			hpCerticipate = #{hpCerticipate}
+		where hpId = #{hpId}
+	</update>
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="com.omg.domain.HelperVO" resultType="com.omg.domain.HelperVO">
+		select * from helper_tbl
+		where hpId = #{hpId}
+	</select>
+	
+	<!-- 정보 조회 -->
+	<select id="view" parameterType="String" resultType="com.omg.domain.HelperVO">
+		select * from helper_tbl
+		where hpId = #{hpId}
+	</select>
+	
+</mapper>
